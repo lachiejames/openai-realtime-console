@@ -1,4 +1,11 @@
-export default function Button({ icon, children, onClick, className }) {
+import { ButtonProps } from "../types";
+
+export default function Button({
+  icon,
+  children,
+  onClick,
+  className,
+}: ButtonProps) {
   return (
     <button
       className={`bg-gray-800 text-white rounded-full p-4 flex items-center gap-1 hover:opacity-90 ${className}`}

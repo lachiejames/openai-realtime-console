@@ -1,7 +1,8 @@
 import { ArrowUp, ArrowDown } from "react-feather";
 import { useState } from "react";
+import { EventProps, EventLogProps, ClientEvent } from "../types";
 
-function Event({ event, timestamp }) {
+function Event({ event, timestamp }: EventProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isClient = event.event_id && !event.event_id.startsWith("event_");
@@ -33,9 +34,9 @@ function Event({ event, timestamp }) {
   );
 }
 
-export default function EventLog({ events }) {
-  const eventsToDisplay = [];
-  let deltaEvents = {};
+export default function EventLog({ events }: EventLogProps) {
+  const eventsToDisplay: JSX.Element[] = [];
+  const deltaEvents: Record<string, ClientEvent> = {};
 
   events.forEach((event) => {
     if (event.type.endsWith("delta")) {
