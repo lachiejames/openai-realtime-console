@@ -1,4 +1,7 @@
 <div align="center">
+  <img src="./public/thumbnail.png" alt="OpenAI Realtime Console Interface" width="1200" />
+  <br>
+  <br>
   <h1>Next.js OpenAI Realtime Console</h1>
   <p>A Next.js implementation of the OpenAI Realtime Console with WebRTC support and one-click Vercel deployment.</p>
 </div>
