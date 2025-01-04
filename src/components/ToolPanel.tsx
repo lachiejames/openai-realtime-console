@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { ClientEvent, FunctionCallOutputProps, ToolPanelProps } from "../types";
 
 const functionDescription = `
 Call this function when a user asks for a color palette.
 `;
 
-const sessionUpdate = {
+const sessionUpdate: ClientEvent = {
   type: "session.update",
   session: {
     tools: [
@@ -37,8 +38,11 @@ const sessionUpdate = {
   },
 };
 
-function FunctionCallOutput({ functionCallOutput }) {
-  const { theme, colors } = JSON.parse(functionCallOutput.arguments);
+function FunctionCallOutput({ functionCallOutput }: FunctionCallOutputProps) {
+  const { theme, colors } = JSON.parse(functionCallOutput.arguments) as {
+    theme: string;
+    colors: string[];
+  };
 
   const colorBoxes = colors.map((color) => (
     <div
@@ -67,9 +71,11 @@ export default function ToolPanel({
   isSessionActive,
   sendClientEvent,
   events,
-}) {
+}: ToolPanelProps) {
   const [functionAdded, setFunctionAdded] = useState(false);
-  const [functionCallOutput, setFunctionCallOutput] = useState(null);
+  const [functionCallOutput, setFunctionCallOutput] = useState<
+    FunctionCallOutputProps["functionCallOutput"] | null
+  >(null);
 
   useEffect(() => {
     if (!events || events.length === 0) return;
@@ -83,7 +89,7 @@ export default function ToolPanel({
     const mostRecentEvent = events[0];
     if (
       mostRecentEvent.type === "response.done" &&
-      mostRecentEvent.response.output
+      mostRecentEvent.response?.output
     ) {
       mostRecentEvent.response.output.forEach((output) => {
         if (
@@ -105,6 +111,8 @@ export default function ToolPanel({
         }
       });
     }
+    // Fixing this ESLint rule will currently break the ToolPanel component
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events]);
 
   useEffect(() => {
